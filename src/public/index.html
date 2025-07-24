@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Configuración Wi-Fi</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+      }
+      input,
+      button {
+        display: block;
+        margin: 1rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Conexión Wi-Fi</h1>
+    <label>SSID: <input id="ssid" /></label>
+    <label>Contraseña: <input id="password" type="password" /></label>
+    <button onclick="guardar()">Guardar configuración</button>
+    <p id="msg"></p>
+
+    <script>
+      async function cargar() {
+        const res = await fetch('/api/wifi');
+        const data = await res.json();
+        document.getElementById('ssid').value = data.ssid;
+        document.getElementById('password').value = data.password;
+      }
+
+      async function guardar() {
+        const ssid = document.getElementById('ssid').value;
+        const password = document.getElementById('password').value;
+        const res = await fetch('/api/wifi', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ssid, password }),
+        });
+        document.getElementById('msg').textContent = res.ok
+          ? 'Guardado correctamente'
+          : 'Error al guardar';
+      }
+      cargar();
+    </script>
+  </body>
+</html>
