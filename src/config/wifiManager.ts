@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const wifiPath = path.join(__dirname, '../../data/config.json');
+const wifiPath = path.join(__dirname, '../data/config.json');
 
 export const initWiFi = () => {
   if (fs.existsSync(wifiPath)) {
